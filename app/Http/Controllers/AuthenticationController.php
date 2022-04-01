@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AuthenticationController extends Controller
 {
@@ -27,9 +29,11 @@ class AuthenticationController extends Controller
             ]);
         }
 
-        return response()->json('success'=> true, 
+        return response()->json(['success'=> true, 
                                 'name' => $user->name,
-                                'token' => $user->createToken($request->app_name)->plainTextToken);
+                                'roles' => $user->getAllPermissions(),
+                                'token' => $user->createToken($request->app_name)->plainTextToken
+                                ]);
     }
 
     /**
@@ -45,6 +49,6 @@ class AuthenticationController extends Controller
 
         $request->user()->currentAccessToken()->delete();
 
-        return response()->json('success'=> true);
+        return response()->json(['success'=> true]);
     }
 }
