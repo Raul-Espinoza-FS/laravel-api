@@ -28,6 +28,8 @@ RUN cp -rf /var/www/docker/000-default.conf /etc/apache2/sites-enabled/000-defau
     && cp -rf /var/www/docker/dev/php.ini /usr/local/etc/php/php.ini \
     && cp -rf /var/www/docker/start.sh /usr/local/bin/start
 
+RUN ln -s /var/www/storage/app/public /var/www/public/storage
+
 RUN chmod u+x /usr/local/bin/start \
     && a2enmod rewrite
 
