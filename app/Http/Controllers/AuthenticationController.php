@@ -5,20 +5,25 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class AuthenticationController extends Controller
 {
     /**
      * Login api
      *
+     * @param string email
+     * @param string password
+     * @param string app_name - name to identify the token
+     *  
      * @return \Illuminate\Http\Response
      */
     public function login(Request $request)
     {
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required',
-            'app_name' => 'required',
+            'password' => 'required|string',
+            'app_name' => 'required|string',
         ]);
 
         $user = User::where('email', $request->email)->first();
@@ -47,7 +52,7 @@ class AuthenticationController extends Controller
             'app_name' => 'required',
         ]);
 
-        $request->user()->currentAccessToken()->delete();
+        optional($request->user()->currentAccessToken())->delete();
 
         return response()->json(['success'=> true]);
     }

@@ -8,11 +8,21 @@ use \App\Models\Post;
 
 class PostController extends Controller
 {
+    /**
+     * List all posts
+     * 
+     * @param string title_search - search by title
+     * @param int many - number of post per page
+     * @param string sort_by - column to sort of
+     * @param string direction - direction of the sorting - desc,asc
+     * 
+     * @return \Illuminate\Http\Response
+     */
     public function index(Request $request)
     {
         //Validate request
         $request->validate([
-            'title_search' => 'nullable|integer',
+            'title_search' => 'nullable|string',
             'many' => 'nullable|integer',
             'sort_by' => 'nullable|string',
             'direction' => 'nullable|in:asc,desc',
@@ -37,6 +47,16 @@ class PostController extends Controller
         return response()->json($posts);
     }
 
+    /**
+     * Save a post
+     * 
+     * @param string title - Title of the post
+     * @param string content - Content of the post
+     * @param string tags - Tags fo the post, separated by ","
+     * @param int thumbnail_id - Id of the image associated to the post
+     * 
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {
         $this->authorize('create', Post::class);
@@ -61,12 +81,29 @@ class PostController extends Controller
         return response()->json(['post_id' => $new_post->id]);
     }
 
+    /**
+     * Get a Post
+     * 
+     * @param int id - Id of the post to edit
+     * 
+     * @return \Illuminate\Http\Response
+     */
     public function show(Request $request, $id)
     {
         $post = Post::with('thumbnail')->findOrFail($id);
         return response()->json($post);
     }
 
+    /**
+     * Edit a Post
+     * 
+     * @param string title - Title of the post
+     * @param string content - Content of the post
+     * @param string tags - Tags fo the post, separated by ","
+     * @param int thumbnail_id - Id of the image associated to the post
+     * 
+     * @return \Illuminate\Http\Response
+     */
     public function update(Request $request, $id)
     {
 
@@ -92,6 +129,13 @@ class PostController extends Controller
         return response()->json(['post_id' => $post->id]);
     }
 
+    /**
+     * Delete a Post
+     * 
+     * @param int id - Id of the post to delete
+     * 
+     * @return \Illuminate\Http\Response
+     */
     public function destroy(Request $request, $id)
     {
         $post = Post::findOrFail($id);

@@ -33,10 +33,12 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('thumbnails');
-
         Schema::table('posts', function (Blueprint $table) {
+            $table->dropForeign(['thumbnail_id']);
             $table->dropColumn('thumbnail_id');
         });
+
+        Schema::dropIfExists('thumbnails');
+
     }
 };

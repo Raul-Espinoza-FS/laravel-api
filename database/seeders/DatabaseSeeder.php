@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
     {
         if (App::environment('production')) {
             // The environment is producition
-        } else if (App::environment('local', 'development', 'staging')) {
+        } else if (App::environment('local', 'development', 'staging', 'testing')) {
             // Permissions
             Permission::create(['name' => 'create_article']);
             Permission::create(['name' => 'edit_article']);

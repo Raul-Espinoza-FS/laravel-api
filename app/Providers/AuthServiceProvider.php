@@ -5,9 +5,11 @@ namespace App\Providers;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
-use \App\Models\Post;
-use \App\Policies\PostPolicy;
-use \App\Models\Thumbnail;
+use App\Models\Post;
+use App\Policies\PostPolicy;
+use App\Models\Thumbnail;
+use App\Policies\ThumbnailPolicy;
+
 class AuthServiceProvider extends ServiceProvider
 {
     /**

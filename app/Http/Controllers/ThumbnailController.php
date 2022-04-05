@@ -9,9 +9,16 @@ use \App\Models\Thumbnail;
 
 class ThumbnailController extends Controller
 {
+    /**
+     * Save a thumbnail image
+     * 
+     * @param image thumbnail - Image file, png or jpg
+     * 
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {
-        $this->authorize('create');
+        $this->authorize('create', Thumbnail::class);
         
         //Validate request
         $request->validate([
@@ -35,6 +42,13 @@ class ThumbnailController extends Controller
         return response()->json(['thumbnail_id' => $thumbnail->id]);
     }
 
+     /**
+     * Get a thumbnail image and his url
+     * 
+     * @param int id - Id of the thumbnail
+     * 
+     * @return \Illuminate\Http\Response
+     */
     public function show(Request $request, $id)
     {
         $thumbnail = Thumbnail::findOrFail($id);
