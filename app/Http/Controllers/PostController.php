@@ -26,9 +26,10 @@ class PostController extends Controller
             'many' => 'nullable|integer',
             'sort_by' => 'nullable|string',
             'direction' => 'nullable|in:asc,desc',
+            'page' => 'nullable|integer',
         ]);
 
-        $posts = Post::select('*');
+        $posts = Post::with('thumbnail')->select('*');
 
         if (isset($request->title_search)) {
             $posts->where('title', 'like', '%' . $request->title . '%');
@@ -111,7 +112,7 @@ class PostController extends Controller
         $request->validate([
             //Required Parameters
             'title' => 'nullable|string',
-            'content' => 'nullable|text',
+            'content' => 'nullable|string',
             'tags' => 'nullable|string',
             'thumbnail_id' => 'nullable|integer|exists:thumbnails,id',
         ]);
