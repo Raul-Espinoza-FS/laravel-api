@@ -23,6 +23,10 @@ Route::prefix('/thumbnails')->group(function () {
     Route::get('/{id}', [ThumbnailController::class, 'show']);
 });
 
+Route::prefix('/posts')->group(function () {
+    Route::get('/{id}', [PostController::class, 'show']);
+});
+
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/logout', [AuthenticationController::class, 'logout']);
@@ -30,7 +34,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('/posts')->group(function () {
         Route::get('/', [PostController::class, 'index']);
         Route::post('/', [PostController::class, 'store']);
-        Route::get('/{id}', [PostController::class, 'show']);
         Route::patch('/{id}', [PostController::class, 'update']);
         Route::delete('/{id}', [PostController::class, 'destroy']);
     });
